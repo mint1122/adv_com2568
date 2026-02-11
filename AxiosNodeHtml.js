@@ -7,13 +7,11 @@ const base_url = 'http://localhost:3000';
 
 const path = require('path');
 
-app.use(express.static(path.join(__dirname, '../views')));
-
-
+app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(express.static(__dirname + '/public'));
+app.use(express.static(path.join(__dirname, 'public')));
 
 app.get('/',async (req, res) => {
     try {
@@ -86,6 +84,7 @@ app.get("/delete/:id", async (req, res) => {
     }
 });
 
-app.listen(4000, () => {
-    console.log('Server is running on http://localhost:4000');
+const FRONTEND_PORT = process.env.PORT || 5500;
+app.listen(FRONTEND_PORT, () => {
+    console.log(`Server is running on http://localhost:${FRONTEND_PORT}`);
 });

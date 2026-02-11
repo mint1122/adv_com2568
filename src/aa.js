@@ -6,9 +6,11 @@ const path = require("path");
 const app = express();
 app.use(express.json());
 
-// Ensure Database directory exists
-
-const db = new sqlite3.Database("./Database/Book.sqlite3")
+// Ensure database directory exists and use consistent path
+const dbDir = path.resolve(__dirname, '..', 'database');
+if (!fs.existsSync(dbDir)) fs.mkdirSync(dbDir, { recursive: true });
+const dbPath = path.join(dbDir, 'Book.sqlite3');
+const db = new sqlite3.Database(dbPath);
 
 // Create table
 db.run(`
